@@ -79,10 +79,14 @@ class HireFireMiddleware(MiddlewareMixin):
         return JsonResponse(data=data, safe=False)
 
     def process_request(self, request):
-        path = request.path
+        print 'Middleware processing started'
+        try:
+            path = request.path
 
-        if self.test_path.match(path):
-            return self.test(request)
+            if self.test_path.match(path):
+                return self.test(request)
 
-        elif self.info_path.match(path):
-            return self.info(request)
+            elif self.info_path.match(path):
+                return self.info(request)
+        except Exception as ex:
+            print 'Error: ' % str(ex)
